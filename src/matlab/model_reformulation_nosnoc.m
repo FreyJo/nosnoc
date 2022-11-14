@@ -809,6 +809,7 @@ end
 g_switching = []; % collects switching function algebraic equations 0 = g_i(x) - \lambda_i - e \mu_i
 g_convex = []; % equation for the convex multiplers 1 = e' \theta
 f_comp_residual = 0; % the orthogonality conditions diag(\theta) \lambda = 0.
+ind_g_Stewart_simplex = [0]
 for ii = 1:n_simplex
     switch pss_mode
         case 'Stewart'
@@ -821,6 +822,7 @@ for ii = 1:n_simplex
             % theta_i >= 0;     for all i = 1,..., n_simplex
             % Gradient of Lagrange Function of indicator LP
             g_switching = [g_switching; g_Stewart{ii}-lambda_all{ii}+mu_all{ii}*e_ones_all{ii}];
+            ind_g_Stewart_simplex = [ind_g_Stewart_simplex; length(g_switching)];
             g_convex = [g_convex;e_ones_all{ii}'*theta_all{ii}-1];
             f_comp_residual = f_comp_residual + lambda_all{ii}'*theta_all{ii};
         case 'Step'
@@ -1033,6 +1035,7 @@ dimensions.n_beta = n_beta;
 dimensions.n_gamma = n_gamma;
 dimensions.n_lambda_0 = n_lambda_0;
 dimensions.n_lambda_1 = n_lambda_1;
+dimensions.ind_g_Stewart_simplex = ind_g_Stewart_simplex
 model.dimensions = dimensions;
 
 end

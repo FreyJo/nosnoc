@@ -48,6 +48,10 @@ x0 = solver_initialization.lbw(1:model.dimensions.n_x);
 if strcmp(settings.pss_mode, 'Stewart')
     g_eval = full(model.g_Stewart_fun(x0));
     lambda00 = g_eval - min(g_eval);
+    for s = 1:model.dimensions.n_simplex
+        index = model.dimensions.ind_g_Stewart_simplex(s)+1 : model.dimensions.ind_g_Stewart_simplex(s+1);
+        lambda00(index) = g_eval(index) - min(g_eval(index));
+    end
 elseif strcmp(settings.pss_mode, 'Step')
     c_x = full(model.c_fun(x0));
     lambda00 = [ max(c_x, 0); min(c_x, 0)];
@@ -59,7 +63,7 @@ try
     complementarity_stats = [full(comp_res(w0, p_val))];
 catch
     w0 = w0(1:length(model.w));
-    complementarity_stats = [full(comp_res(w0))];
+    complementarity_stats = [full(comp_res(w0, p_val))];
 end
 cpu_time = [];
 homotopy_iterations = [];
