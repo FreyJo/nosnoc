@@ -50,8 +50,8 @@ model = blocks_with_friction();
 %% Simulation setings
 N_finite_elements = 3;
 % T_sim = 12;
-T_sim = 4;
-N_sim = 85;
+T_sim = 5;
+N_sim = 120;
 % N_sim = 3;
 % 
 settings.pss_mode = 'Stewart';
